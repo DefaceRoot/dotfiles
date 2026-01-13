@@ -142,12 +142,21 @@ install_tmux() {
     fi
 }
 
+# Source nvm if available (needed for npm in non-interactive shells)
+load_nvm() {
+    export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+    # Also check common devcontainer feature locations
+    [ -s "/usr/local/share/nvm/nvm.sh" ] && source "/usr/local/share/nvm/nvm.sh"
+}
+
 # Install Claude Code
 install_claude_code() {
+    load_nvm
     if ! command -v claude &> /dev/null; then
         echo "==> Installing Claude Code"
         if command -v npm &> /dev/null; then
-            sudo npm install -g @anthropic-ai/claude-code || {
+            npm install -g @anthropic-ai/claude-code || {
                 echo "Warning: Failed to install Claude Code"
             }
         else
@@ -172,10 +181,11 @@ install_opencode() {
 
 # Install Codex
 install_codex() {
+    load_nvm
     if ! command -v codex &> /dev/null; then
         echo "==> Installing Codex"
         if command -v npm &> /dev/null; then
-            sudo npm install -g @openai/codex || {
+            npm install -g @openai/codex || {
                 echo "Warning: Failed to install Codex"
             }
         else
