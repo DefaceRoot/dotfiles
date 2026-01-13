@@ -19,6 +19,7 @@
 
   "mounts": [
     "source=${localEnv:HOME}/.claude,target=/opt/host-creds/claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.claude.json,target=/opt/host-creds/claude.json,type=bind,consistency=cached",
     "source=${localEnv:HOME}/.codex,target=/opt/host-creds/codex,type=bind,consistency=cached",
     "source=${localEnv:HOME}/.local/share/opencode,target=/opt/host-creds/opencode-share,type=bind,consistency=cached",
     "source=${localEnv:HOME}/.config/opencode,target=/opt/host-creds/opencode-config,type=bind,consistency=cached"

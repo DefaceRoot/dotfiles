@@ -72,6 +72,7 @@ The following directories are automatically mounted from your host:
 | Host Path | Container Path | Tool |
 |-----------|----------------|------|
 | ~/.claude | ~/.claude | Claude Code |
+| ~/.claude.json | ~/.claude.json | Claude Code config |
 | ~/.codex | ~/.codex | Codex |
 | ~/.local/share/opencode | ~/.local/share/opencode | OpenCode |
 | ~/.config/opencode | ~/.config/opencode | OpenCode config |

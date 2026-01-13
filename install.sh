@@ -196,6 +196,11 @@ link_host_credentials() {
         ln -sfn /opt/host-creds/claude "$HOME/.claude"
     fi
 
+    if [ -f "/opt/host-creds/claude.json" ]; then
+        echo "    Linking Claude Code config"
+        ln -sfn /opt/host-creds/claude.json "$HOME/.claude.json"
+    fi
+
     if [ -d "/opt/host-creds/codex" ]; then
         echo "    Linking Codex credentials"
         ln -sfn /opt/host-creds/codex "$HOME/.codex"
