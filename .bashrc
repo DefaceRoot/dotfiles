@@ -85,6 +85,9 @@ command -v pyenv &> /dev/null && eval "$(pyenv init -)"
 # Local bin
 export PATH="$HOME/.local/bin:$PATH"
 
+# OpenCode
+[ -d "$HOME/.opencode/bin" ] && export PATH="$HOME/.opencode/bin:$PATH"
+
 # Starship prompt
 if command -v starship &> /dev/null; then
     eval "$(starship init bash)"

@@ -49,6 +49,34 @@ install_essentials() {
     esac
 }
 
+# Install Node.js if not available (needed for Claude Code and Codex)
+install_nodejs() {
+    if ! command -v node &> /dev/null || ! command -v npm &> /dev/null; then
+        echo "==> Installing Node.js"
+        # Use NodeSource for latest LTS
+        curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - || {
+            # Fallback: install from package manager
+            case $PKG_MANAGER in
+                apt)
+                    $INSTALL_CMD nodejs npm
+                    ;;
+                dnf)
+                    $INSTALL_CMD nodejs npm
+                    ;;
+                apk)
+                    $INSTALL_CMD nodejs npm
+                    ;;
+            esac
+        }
+        # Install from nodesource if setup succeeded
+        if [ "$PKG_MANAGER" = "apt" ]; then
+            $INSTALL_CMD nodejs 2>/dev/null || true
+        fi
+    else
+        echo "==> Node.js already installed"
+    fi
+}
+
 # Install Starship prompt
 install_starship() {
     if ! command -v starship &> /dev/null; then
@@ -118,9 +146,13 @@ install_tmux() {
 install_claude_code() {
     if ! command -v claude &> /dev/null; then
         echo "==> Installing Claude Code"
-        npm install -g @anthropic-ai/claude-code || {
-            echo "Warning: Failed to install Claude Code (npm may not be available)"
-        }
+        if command -v npm &> /dev/null; then
+            sudo npm install -g @anthropic-ai/claude-code || {
+                echo "Warning: Failed to install Claude Code"
+            }
+        else
+            echo "Warning: npm not available, skipping Claude Code"
+        fi
     else
         echo "==> Claude Code already installed"
     fi
@@ -128,7 +160,7 @@ install_claude_code() {
 
 # Install OpenCode
 install_opencode() {
-    if ! command -v opencode &> /dev/null; then
+    if ! command -v opencode &> /dev/null && [ ! -f "$HOME/.opencode/bin/opencode" ]; then
         echo "==> Installing OpenCode"
         curl -fsSL https://opencode.ai/install | bash || {
             echo "Warning: Failed to install OpenCode"
@@ -142,9 +174,13 @@ install_opencode() {
 install_codex() {
     if ! command -v codex &> /dev/null; then
         echo "==> Installing Codex"
-        npm install -g @openai/codex || {
-            echo "Warning: Failed to install Codex (npm may not be available)"
-        }
+        if command -v npm &> /dev/null; then
+            sudo npm install -g @openai/codex || {
+                echo "Warning: Failed to install Codex"
+            }
+        else
+            echo "Warning: npm not available, skipping Codex"
+        fi
     else
         echo "==> Codex already installed"
     fi
@@ -212,6 +248,7 @@ main() {
 
     if [ "$PKG_MANAGER" != "unknown" ]; then
         install_essentials
+        install_nodejs
     fi
 
     install_starship
