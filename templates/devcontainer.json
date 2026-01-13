@@ -1,6 +1,6 @@
 {
   "name": "Dev Container",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
 
   "features": {
     "ghcr.io/devcontainers/features/python:1": {
@@ -18,10 +18,10 @@
   },
 
   "mounts": [
-    "source=${localEnv:HOME}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.codex,target=/home/vscode/.codex,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.local/share/opencode,target=/home/vscode/.local/share/opencode,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.config/opencode,target=/home/vscode/.config/opencode,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.claude,target=${containerEnv:HOME}/.claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.codex,target=${containerEnv:HOME}/.codex,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.local/share/opencode,target=${containerEnv:HOME}/.local/share/opencode,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.config/opencode,target=${containerEnv:HOME}/.config/opencode,type=bind,consistency=cached"
   ],
 
   "customizations": {
@@ -38,5 +38,6 @@
 
   "postCreateCommand": "echo 'Container ready!'",
 
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true
 }
