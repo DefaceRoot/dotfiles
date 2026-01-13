@@ -1,0 +1,42 @@
+[user]
+    name = DefaceRoot
+    email = defaceroot@tutamail.com
+
+[init]
+    defaultBranch = main
+
+[core]
+    editor = nvim
+    autocrlf = input
+    whitespace = fix
+
+[color]
+    ui = auto
+
+[pull]
+    rebase = false
+
+[push]
+    default = current
+    autoSetupRemote = true
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    lg = log --oneline --graph --decorate -20
+    aa = add --all
+    cm = commit -m
+    amend = commit --amend --no-edit
+
+[diff]
+    colorMoved = default
+
+[merge]
+    conflictstyle = diff3
+
+[credential]
+    helper = cache --timeout=3600
