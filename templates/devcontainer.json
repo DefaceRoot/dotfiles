@@ -18,10 +18,10 @@
   },
 
   "mounts": [
-    "source=${localEnv:HOME}/.claude,target=${containerEnv:HOME}/.claude,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.codex,target=${containerEnv:HOME}/.codex,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.local/share/opencode,target=${containerEnv:HOME}/.local/share/opencode,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.config/opencode,target=${containerEnv:HOME}/.config/opencode,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.claude,target=/opt/host-creds/claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.codex,target=/opt/host-creds/codex,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.local/share/opencode,target=/opt/host-creds/opencode-share,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.config/opencode,target=/opt/host-creds/opencode-config,type=bind,consistency=cached"
   ],
 
   "customizations": {

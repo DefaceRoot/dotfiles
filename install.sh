@@ -150,6 +150,34 @@ install_codex() {
     fi
 }
 
+# Link host credentials from /opt/host-creds to home directory
+link_host_credentials() {
+    echo "==> Linking host credentials"
+
+    # Only create symlinks if the mount points exist
+    if [ -d "/opt/host-creds/claude" ]; then
+        echo "    Linking Claude Code credentials"
+        ln -sfn /opt/host-creds/claude "$HOME/.claude"
+    fi
+
+    if [ -d "/opt/host-creds/codex" ]; then
+        echo "    Linking Codex credentials"
+        ln -sfn /opt/host-creds/codex "$HOME/.codex"
+    fi
+
+    if [ -d "/opt/host-creds/opencode-share" ]; then
+        echo "    Linking OpenCode data"
+        mkdir -p "$HOME/.local/share"
+        ln -sfn /opt/host-creds/opencode-share "$HOME/.local/share/opencode"
+    fi
+
+    if [ -d "/opt/host-creds/opencode-config" ]; then
+        echo "    Linking OpenCode config"
+        mkdir -p "$HOME/.config"
+        ln -sfn /opt/host-creds/opencode-config "$HOME/.config/opencode"
+    fi
+}
+
 # Symlink dotfiles
 link_dotfiles() {
     echo "==> Linking dotfiles"
@@ -179,6 +207,9 @@ link_dotfiles() {
 
 # Main installation
 main() {
+    # Link host credentials first (before installing tools that might use them)
+    link_host_credentials
+
     if [ "$PKG_MANAGER" != "unknown" ]; then
         install_essentials
     fi
@@ -194,9 +225,6 @@ main() {
 
     echo ""
     echo "==> Dotfiles installation complete!"
-    echo ""
-    echo "Note: If Claude Code, OpenCode, or Codex credentials aren't working,"
-    echo "make sure the credential directories are mounted in your devcontainer.json"
     echo ""
 }
 
