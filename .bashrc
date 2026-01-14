@@ -45,6 +45,9 @@ alias gd='git diff'
 alias gco='git checkout'
 alias gb='git branch'
 
+# Claude Code
+alias clauded='claude --dangerously-skip-permissions'
+
 # Editor
 export EDITOR='nvim'
 export VISUAL='nvim'
