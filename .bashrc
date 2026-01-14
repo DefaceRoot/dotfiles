@@ -88,6 +88,9 @@ export PATH="$HOME/.local/bin:$PATH"
 # OpenCode
 [ -d "$HOME/.opencode/bin" ] && export PATH="$HOME/.opencode/bin:$PATH"
 
+# npm global packages (for auggie CLI, etc.)
+[ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
+
 # Starship prompt
 if command -v starship &> /dev/null; then
     eval "$(starship init bash)"

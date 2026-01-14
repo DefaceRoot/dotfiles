@@ -227,6 +227,33 @@ link_host_credentials() {
         mkdir -p "$HOME/.config"
         ln -sfn /opt/host-creds/opencode-config "$HOME/.config/opencode"
     fi
+
+    # npm-global for auggie CLI and other global npm packages
+    if [ -d "/opt/host-creds/npm-global" ]; then
+        echo "    Linking npm-global (auggie CLI)"
+        ln -sfn /opt/host-creds/npm-global "$HOME/.npm-global"
+        # Ensure npm-global/bin is in PATH for this session
+        export PATH="$HOME/.npm-global/bin:$PATH"
+    fi
+
+    # Augment auth session (for MCP server authentication)
+    if [ -d "/opt/host-creds/augment" ]; then
+        echo "    Linking Augment credentials"
+        ln -sfn /opt/host-creds/augment "$HOME/.augment"
+    fi
+
+    # ccstatusline config (custom Claude Code statusline)
+    if [ -d "/opt/host-creds/ccstatusline-config" ]; then
+        echo "    Linking ccstatusline config"
+        mkdir -p "$HOME/.config"
+        ln -sfn /opt/host-creds/ccstatusline-config "$HOME/.config/ccstatusline"
+    fi
+
+    # Cursor AI config
+    if [ -d "/opt/host-creds/cursor" ]; then
+        echo "    Linking Cursor config"
+        ln -sfn /opt/host-creds/cursor "$HOME/.cursor"
+    fi
 }
 
 # Symlink dotfiles
