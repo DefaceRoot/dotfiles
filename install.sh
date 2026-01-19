@@ -196,6 +196,26 @@ install_codex() {
     fi
 }
 
+# Install uv (Python package manager, provides uvx for running Python tools)
+# Required for Serena MCP server in OpenCode
+install_uv() {
+    if ! command -v uv &> /dev/null && ! command -v uvx &> /dev/null; then
+        echo "==> Installing uv (Python package manager)"
+        curl -LsSf https://astral.sh/uv/install.sh | sh || {
+            echo "Warning: Failed to install uv"
+            return 1
+        }
+        # Add uv to PATH for current session
+        export PATH="$HOME/.local/bin:$PATH"
+        # Verify installation
+        if command -v uvx &> /dev/null; then
+            echo "    uvx $(uvx --version) installed successfully"
+        fi
+    else
+        echo "==> uv/uvx already installed"
+    fi
+}
+
 # Link host credentials from /opt/host-creds to home directory
 link_host_credentials() {
     echo "==> Linking host credentials"
@@ -297,6 +317,7 @@ main() {
     install_neovim
     install_kickstart_nvim
     install_tmux
+    install_uv
     install_claude_code
     install_opencode
     install_codex
