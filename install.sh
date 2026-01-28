@@ -38,13 +38,13 @@ install_essentials() {
 
     case $PKG_MANAGER in
         apt)
-            $INSTALL_CMD ripgrep fzf jq tree htop curl wget git unzip
+            $INSTALL_CMD ripgrep fzf jq tree htop curl wget git unzip tmux
             ;;
         dnf)
-            $INSTALL_CMD ripgrep fzf jq tree htop curl wget git unzip
+            $INSTALL_CMD ripgrep fzf jq tree htop curl wget git unzip tmux
             ;;
         apk)
-            $INSTALL_CMD ripgrep fzf jq tree htop curl wget git unzip
+            $INSTALL_CMD ripgrep fzf jq tree htop curl wget git unzip tmux
             ;;
     esac
 }
@@ -216,6 +216,22 @@ install_uv() {
     fi
 }
 
+# Ensure /home/colin resolves inside containers for host-path configs.
+ensure_host_home_alias() {
+    if [ -d "/home/colin" ]; then
+        return
+    fi
+
+    if [ -n "${HOME:-}" ] && [ -d "$HOME" ]; then
+        echo "==> Creating /home/colin -> $HOME symlink for host-path configs"
+        if command -v sudo &> /dev/null; then
+            sudo ln -sfn "$HOME" /home/colin
+        else
+            ln -sfn "$HOME" /home/colin
+        fi
+    fi
+}
+
 # Link host credentials from /opt/host-creds to home directory
 link_host_credentials() {
     echo "==> Linking host credentials"
@@ -305,6 +321,7 @@ link_dotfiles() {
 
 # Main installation
 main() {
+    ensure_host_home_alias
     # Link host credentials first (before installing tools that might use them)
     link_host_credentials
 

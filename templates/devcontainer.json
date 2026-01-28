@@ -37,7 +37,7 @@
     }
   },
 
-  "postCreateCommand": "echo 'Container ready!'",
+  "postCreateCommand": "cd ~/dotfiles && bash install.sh 2>&1 || echo 'Dotfiles install skipped or failed'",
 
   "remoteUser": "vscode",
   "updateRemoteUserUID": true
